@@ -62,6 +62,27 @@ func runQuery(cmd *cobra.Command, args []string) error {
 		records = []store.Record{}
 	}
 
+	if formatFlag == "text" {
+		for _, r := range records {
+			fmt.Printf("[%s] %s/%s model=%s in=%d out=%d",
+				r.CreatedAt, r.Project, r.Task, r.Model, r.InputTokens, r.OutputTokens)
+			if r.CostUSD != nil {
+				fmt.Printf(" $%.4f", *r.CostUSD)
+			}
+			if r.Result != "" {
+				fmt.Printf(" result=%s", r.Result)
+			}
+			if r.Quality != nil {
+				fmt.Printf(" quality=%d", *r.Quality)
+			}
+			fmt.Println()
+			if f.Full && r.Intent != "" {
+				fmt.Printf("  intent: %s\n", r.Intent)
+			}
+		}
+		return nil
+	}
+
 	out, _ := json.MarshalIndent(records, "", "  ")
 	fmt.Println(string(out))
 	return nil

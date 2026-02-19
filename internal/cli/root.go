@@ -20,6 +20,8 @@ func init() {
 
 	rootCmd.AddCommand(recordCmd)
 	rootCmd.AddCommand(queryCmd)
+	rootCmd.AddCommand(exportCmd)
+	rootCmd.AddCommand(summaryCmd)
 	rootCmd.AddCommand(priceCmd)
 }
 
